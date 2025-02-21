@@ -1,0 +1,11 @@
+Flask==2.2.5
+werkzeug==2.2.3
+easyocr==1.7.2
+numpy==1.26.4
+Pillow==10.3.0
+opencv-python==4.9.0.80
+python-dotenv==1.0.1
+google-generativeai==0.8.4
+langchain==0.3.17
+langchain-core==0.3.33
+gunicorn==23.0.0

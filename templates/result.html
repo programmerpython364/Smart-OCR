@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interface</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-size: 200% 200%;
+      animation: gradientAnimation 10s ease infinite;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      max-width: 90%;
+      width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .chat-box {
+      border-radius: 10px;
+      padding: 20px;
+      text-align: left;
+      height: 400px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 80%;
+      word-wrap: break-word;
+      display: inline-block;
+      clear: both;
+    }
+
+    .user-message {
+      background: #007bff;
+      color: white;
+      float: right;
+      text-align: right;
+    }
+
+    .ai-message {
+      background: #28a745;
+      color: white;
+      float: left;
+      text-align: left;
+    }
+
+    .chat-box::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 50px);
+      padding: 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      transition: all 0.3s ease-in-out;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button i {
+      font-size: 18px;
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 120, 120, 0.5);
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #ff758c;
+    }
+
+    /* تحسين التصميم على الشاشات الصغيرة */
+    @media (max-width: 600px) {
+      body {
+        padding: 30px 10px;
+      }
+      .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .chat-box {
+        height: 300px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chat Interface</h1>
+    <div class="chat-box">
+      {% for message in chat_history %}
+        <div class="chat-message {% if message.sender == 'User' %}user-message{% else %}ai-message{% endif %}">
+          <strong>{% if message.sender == "User" %} You: {% else %} AI: {% endif %}</strong>
+          {{ message.message }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <form method="POST" action="{{ url_for('chat') }}">
+      <div class="input-container">
+        <input type="text" name="user_message" placeholder="Type your message..." required>
+        <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+      </div>
+    </form>
+
+    <br>
+    <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Back to Home</a> | 
+    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</body>
+</html>
